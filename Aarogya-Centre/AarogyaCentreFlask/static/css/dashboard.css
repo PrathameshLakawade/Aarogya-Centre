@@ -1,0 +1,230 @@
+/* Body */
+body {
+    background-color: whitesmoke;
+}
+
+/* Navigation Bar */
+.navbar-custom {
+    background-color: whitesmoke;
+}
+
+/* Navigation Bar: User */
+.nav-link a {
+    padding: 5rem;
+}
+
+#navigation-bar {
+    opacity: 1;
+}
+
+/* Greetings Card */
+#greeting-card {
+    width: 75rem;
+    margin-left: 10rem;
+    opacity: 1;
+}
+
+#greeting-card h1 {
+    color: #22577A;
+}
+
+/* Book Appointment Card */ 
+#book-appointment-card {
+    margin-left: 10rem;
+    opacity: 1;
+}
+
+#appointment-city {
+    display: block;
+}
+
+#book-appointment-card h5 {
+    color: #22577A;
+}
+
+.btn-custom {
+    background-color: #38A3A5;
+    color: white;
+}
+
+.btn-custom:hover {
+    background-color: #22577A;
+    color: white;
+}
+
+/* Communicate Link Card */
+#communicate-link-card {
+    color: #22577A;
+    margin-left: 10rem;
+    opacity: 1;
+}
+
+/* Appointment Statistics Card */
+#appointment-statistics-card {
+    margin-left: 10rem;
+    opacity: 1;
+}
+
+#appointment-statistics-card h5 {
+    color: #22577A;
+}
+
+#piechart {
+    margin-top: 2rem;
+    margin-left: 2rem;
+    display: block;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background-image: conic-gradient(#80ED99 180deg, #57CC99 180deg)
+}
+
+.foo {
+    float: left;
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.appointment {
+    background: #57CC99;
+}
+
+.virtual-appointment {
+    background: #80ED99;
+}
+
+p {
+    font-size: 75px;
+}
+
+/* Upcoming Appointment Card */
+#upcoming-appointment-card {
+    width: 29.5rem;
+    opacity: 1;
+}
+
+#upcoming-appointment-card h5 {
+    color: #22577A;
+}
+
+/* Upcoming Virtual Appointment Card */
+#upcoming-virtual-card {
+    width: 29.5rem;
+    opacity: 1;
+}
+
+#upcoming-virtual-card h5 {
+    color: #22577A;
+}
+
+/* Members Card */
+#members-card {
+    width: 29.5rem;
+    opacity: 1;
+}
+
+#members-card h5 {
+    color: #22577A;
+}
+
+/* Account Age Card */
+#account-age-card {
+    width: 29.5rem;
+    opacity: 1;
+}
+
+#account-age-card h5 {
+    color: #22577A;
+}
+
+/* Healthcare Chatbot */
+#open-button {
+    border-radius: 100%;
+    cursor: pointer;
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    width: 5%;
+    height: 10%;
+    display: block;
+}
+
+#close-button {
+    border-radius: 100%;
+    cursor: pointer;
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    width: 5%;
+    height: 10%;
+    display: none;
+}
+
+#chat-form {
+    position: fixed;
+    bottom: 6rem;
+    right: 1rem;
+    border-radius: 15px;
+    z-index: 9;
+    width: 22.5rem;
+    height: 30rem;
+    background-color: white;
+    display: none;
+}
+
+#chatbot-header {
+    font-weight: bold;
+    color: #22577A;
+    margin-top: 10px;
+    border-style: none none solid none;
+}
+
+#chatbot-header p {
+    font-size: 12px;
+    color: #80ED99;
+    font-weight: normal;
+}
+
+#chatbot-header img {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#chat-window {
+    height: 340px;
+    overflow: auto;
+    margin-bottom: 10px;
+    padding: 1rem;
+}
+
+#left {
+    width: 15rem;
+    padding: 0.5rem;
+    background-color: #57CC99;
+    border-radius: 10px 10px 10px 0px;
+    color: white;
+    font-weight: normal;
+}
+
+#right {
+    width: 15rem;
+    padding: 0.5rem;
+    background-color: #38A3A5;
+    border-radius: 10px 10px 0px 10px;
+    color: white;
+    font-weight: normal;
+}
+
+#chat-input input[type=text] {
+    width: 100%;
+    border-radius: 0px 0px 15px 15px;
+    border-style: solid none none none;
+    background-color: white;
+    padding: 10px;
+}
+
+#chat-input input[type=text]:focus {
+    outline: none;
+}

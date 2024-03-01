@@ -1,0 +1,29 @@
+/* Navigation Bar */
+.navbar-custom {
+    background-color: whitesmoke;
+}
+
+/* Body */
+body {
+    background-color: whitesmoke;
+}
+
+/* Add Member Card */
+.card {
+    width: 75rem;
+    margin-left: 10rem;
+}
+
+.card h1 {
+    color: #22577A;
+}
+
+.btn-custom {
+    background-color: #38A3A5;
+    color: white;
+}
+
+.btn-custom:hover {
+    background-color: #22577A;
+    color: white;
+}
