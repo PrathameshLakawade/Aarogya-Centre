@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aarogya Centre | Register</title>
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.png">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+    <!-- CSS -->
+    <link href="/static/css/register.css" rel="stylesheet">
+
+    <!-- JavaScript -->
+    <script type="text/javascript" src="{{ url_for('static', filename='script/register.js') }}"></script>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-custom">
+        <div class="container">
+
+            <!-- Navigation Bar: Brand Logo -->
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <img src="/static/images/logo.png" alt="Aarogya Centre Logo" width="200" height="100">
+            </a>
+        </div>
+    </nav>
+    
+    <!-- Register Card -->
+    <div class="card shadow p-5 mb-5 bg-body rounded">
+        <div class="card-body">
+            <h1><b>Register</b></h1>
+
+            <form action="{{ url_for('register') }}" method="POST">
+                <div class="row">
+                    <div class="col-md-4 mb-3 mt-2">
+                        <div class="form-outline">
+                            <label class="form-label"><b>First name</b></label>
+                            <input type="text" name="first-name" placeholder="Enter your first name" class="form-control" required autofocus />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3 mt-2">
+                        <div class="form-outline">
+                            <label class="form-label"><b>Last name</b></label>
+                            <input type="text" name="last-name" placeholder="Enter your last name" class="form-control" required />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3 mt-2">
+                        <div class="form-outline">
+                            <label class="form-label"><b>Birth date</b></label>
+                            <input type="date" name="birth-date" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="form-outline">
+                            <label class="form-label"><b>Gender</b></label><br>
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="gender" value="Male" checked required />
+                                <label>Male</label>
+                            </div>
+                            
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="gender" value="Female" />
+                                <label>Female</label>
+                            </div>
+
+                            <div class="form-check form-check-inline">
+                                <input type="radio" class="form-check-input" name="gender" value="Other" />
+                                <label>Other</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="form-outline">
+                            <label class="form-label"><b>City</b></label>
+                            <input type="text" name="city" placeholder="Enter city name" class="form-control" required />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="form-outline">
+                            <label class="form-label"><b>Mobile number</b></label>
+                            <input type="number" name="mobile-number" placeholder="Enter your mobile number" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="form-outline">
+                            <label class="form-label"><b>Email address</b></label>
+                            <input type="email" name="email-address" placeholder="Enter your email address" class="form-control" required />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="form-outline">
+                            <label class="form-label"><b>Password</b></label>
+                            <input type="password" name="password" placeholder="Enter your password" class="form-control" required />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="form-outline">
+                            <label class="form-label"><b>Re-enter password</b></label>
+                            <input type="password" name="re-enter-password" placeholder="Re-enter your password" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <label class="form-label"><b>User Category</b></label><br>
+    
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="user-category" value="Normal" 
+                                onclick="hideFields()" checked />
+                            <label>Normal</label>
+                        </div>
+                        
+                        <div class="form-check form-check-inline">
+                            <input type="radio" class="form-check-input" name="user-category" value="Doctor" 
+                                onclick="showFields()" />
+                            <label>Doctor</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-1" id="speciality">
+                        <label class="form-label"><b>Select speciality</b></label><br>
+
+                        <select class="select form-control" name="doctor-speciality">
+                            <option value="" disabled selected>Choose Speciality</option>
+                            <option value="Allergist/Immunologist">Allergist/Immunologist</option>
+                            <option value="Cardiologist">Cardiologist</option>
+                            <option value="Dermatologist">Dermatologist</option>
+                            <option value="Endocrinologist">Endocrinologist</option>
+                            <option value="Family Physician">Family Physician</option>
+                            <option value="Gastroenterologist">Gastroenterologist</option>
+                            <option value="Nephrologist">Nephrologist</option>
+                            <option value="Neurologist">Neurologist</option>
+                            <option value="Pathologist">Pathologist</option>
+                            <option value="Pediatrician">Pediatrician</option>
+                            <option value="Physiatrist">Physiatrist</option>
+                            <option value="Radiologist">Radiologist</option>
+                            <option value="General Surgeon">General Surgeon</option>
+                            <option value="Urologist">Urologist</option>
+                            <option value="Dentist">Dentist</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 mb-1" id="work-city">
+                        <div class="form-outline">
+                            <label class="form-label"><b>Work City</b></label>
+                            <input type="text" name="work-city" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-outline">
+                            <input type="submit" class="btn btn-custom btn-lg" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mt-3">
+                        <div class="form-outline">
+                            <h6>Already have an account? <a href="{{ url_for('login') }}">Log in</a></h6>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" 
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+</body>
+</html>
