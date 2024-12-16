@@ -121,7 +121,7 @@ def test_isomap():
 
 def test_tsne():
     # Test chaining KNeighborsTransformer and TSNE
-    max_iter = 250
+    n_iter = 250
     perplexity = 5
     n_neighbors = int(3.0 * perplexity + 1)
 
@@ -140,14 +140,14 @@ def test_tsne():
                 perplexity=perplexity,
                 method="barnes_hut",
                 random_state=42,
-                max_iter=max_iter,
+                n_iter=n_iter,
             ),
         )
         est_compact = TSNE(
             init="random",
             metric=metric,
             perplexity=perplexity,
-            max_iter=max_iter,
+            n_iter=n_iter,
             method="barnes_hut",
             random_state=42,
         )

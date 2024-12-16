@@ -578,7 +578,7 @@ class _Booleans(_Constraint):
     """Constraint representing boolean likes.
 
     Convenience class for
-    [bool, np.bool_]
+    [bool, np.bool_, Integral (deprecated)]
     """
 
     def __init__(self):
