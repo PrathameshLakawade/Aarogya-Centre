@@ -10,8 +10,11 @@ body {
 
 /* Home Card */
 .card {
-    width: 75rem;
-    margin-left: 10rem;
+    width: 80rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 /* Home Card: Greetings Column */

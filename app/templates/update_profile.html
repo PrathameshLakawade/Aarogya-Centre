@@ -20,7 +20,7 @@
 
         <!-- Navigation Bar: Brand Logo -->
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+            <a class="navbar-brand" href="{{ url_for('main.dashboard') }}">
                 <img src="/static/images/logo.png" alt="Aarogya Centre Logo" width="200" height="100">
             </a>
 
@@ -28,8 +28,8 @@
             <ul class="nav nav-pills">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                        {% if basic_data[1] %}
-                            <img src="{{ basic_data[1] }}" width="50" height="50" 
+                        {% if profile_data['basic_data']['profile_picture'] %}
+                            <img src="{{ profile_data['basic_data']['profile_picture'] }}" width="50" height="50" 
                                 style="border: 6px solid #22577A; border-radius: 100%;" />
                         {% else %}
                             <img src="/static/images/user-icon.png" width="50" height="50" 
@@ -38,11 +38,11 @@
                         
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ url_for('dashboard') }}">View dashboard</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('profile') }}">View profile</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.dashboard') }}">View dashboard</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.view_profile') }}">View profile</a></li>
                         <li><a class="dropdown-item" href="#">Need help?</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ url_for('home') }}">Log Out</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.home') }}">Log Out</a></li>
                     </ul>
                 </li>   
             </ul>
@@ -57,11 +57,11 @@
                 <h5>Update Basic Information</h5>
                 <br>
 
-                <form action="{{ url_for('update_basic_data') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url_for('main.update_basic_data') }}" method="POST" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-md-4">
-                            {% if basic_data[1] %}
-                                <img src="{{ basic_data[1] }}" width="110" height="110" 
+                            {% if profile_data['basic_data']['profile_picture'] %}
+                                <img src="{{ profile_data['basic_data']['profile_picture'] }}" width="110" height="110" 
                                     style="border: 6px solid #22577A; border-radius: 100%;" /><br>
                             {% else %}
                                 <img src="/static/images/user-icon.png" width="110" height="110" 
@@ -79,54 +79,46 @@
                     <br><br>
                     <div class="form-outline mt-2">
                         <label class="form-label"><b>First name</b></label>
-                        <input type="text" name="first-name" value="{{ basic_data[2] }}" placeholder="Enter your first name"
+                        <input type="text" name="first-name" value="{{ profile_data['basic_data']['first_name'] }}" placeholder="Enter your first name"
                             class="form-control" />
                     </div>
     
                     <div class="form-outline mt-2">
                         <label class="form-label"><b>Last name</b></label>
-                        <input type="text" name="last-name" value="{{ basic_data[3] }}" placeholder="Enter your last name"
+                        <input type="text" name="last-name" value="{{ profile_data['basic_data']['last_name'] }}" placeholder="Enter your last name"
                             class="form-control" />
                     </div>
     
                     <div class="form-outline mt-2">
                         <label class="form-label"><b>Birth date</b></label>
-                        <input type="date" name="birth-date" value="{{ basic_data[4] }}" class="form-control" />
+                        <input type="date" name="birth-date" value="{{ profile_data['basic_data']['birth_date'] }}" class="form-control" />
                     </div>
     
                     <div class="form-outline mt-2">
-                        <label class="form-label"><b>Home address</b></label>
-                        <input type="text" name="address-first" value="{{ home_address[0] }}" placeholder="Flat number, Building name" 
+                        <label class="form-label"><b>Address</b></label>
+                        <input type="text" name="address" value="{{ profile_data['basic_data']['address'] }}" placeholder="Flat number, Building name" 
                             class="form-control" />
-                        <input type="text" name="address-second" value="{{ home_address[1] }}" placeholder="Neighbourhood name" 
-                            class="form-control mt-3" />
-                        <input type="text" name="address-third" value="{{ home_address[2] }}" placeholder="Landmark" 
-                            class="form-control mt-3" />
                     </div>
 
                     <div class="form-outline mt-2">
-                        <label class="form-label"><b>Home city</b></label>
-                        <input type="text" name="city" value="{{ basic_data[6] }}" placeholder="Enter your home city"
+                        <label class="form-label"><b>City</b></label>
+                        <input type="text" name="city" value="{{ profile_data['basic_data']['city'] }}" placeholder="Enter your home city"
                             class="form-control" />
                     </div>
-    
-                    {% if account_type == 'Doctor' %}
-                        <div class="form-outline mt-2">
-                            <label class="form-label"><b>Work address</b></label>
-                            <input type="text" name="work-address-first" value="{{ work_address[0] }}" placeholder="Hospital name" 
-                                class="form-control" />
-                            <input type="text" name="work-address-second" value="{{ work_address[1] }}" placeholder="Street name, Neighbourhood name" 
-                                class="form-control mt-3" />
-                            <input type="text" name="work-address-third" value="{{ work_address[2] }}" placeholder="Landmark" 
-                                class="form-control mt-3" />
-                        </div>
 
-                        <div class="form-outline mt-2">
-                            <label class="form-label"><b>Work city</b></label>
-                            <input type="text" name="work-city" value="{{ basic_data[8] }}" placeholder="Enter your work city"
-                                class="form-control" />
-                        </div>
+                    <div class="form-outline mt-2">
+                        <label class="form-label"><b>State</b></label>
+                        <input type="text" name="state" value="{{ profile_data['basic_data']['state'] }}" placeholder="Enter your home city"
+                            class="form-control" />
+                    </div>
 
+                    <div class="form-outline mt-2">
+                        <label class="form-label"><b>Mobile number</b></label>
+                        <input type="number" name="mobile-number" value="{{ profile_data['basic_data']['mobile_number'] }}" placeholder="Enter your mobile number"
+                            class="form-control" />
+                    </div>
+
+                    {% if profile_data['basic_data']['speciality'] != None %}
                         <div class="form-outline mt-2">
                             <label class="form-label"><b>Specialization</b></label><br>
 
@@ -151,17 +143,6 @@
                         </div>
 
                     {% endif %}
-
-                    <div class="form-outline mt-2">
-                        <label class="form-label"><b>Mobile number</b></label>
-                        {% if account_type == 'Doctor' %}
-                            <input type="number" name="mobile-number" value="{{ basic_data[10] }}" placeholder="Enter your mobile number"
-                                class="form-control" />
-                        {% else %}
-                            <input type="number" name="mobile-number" value="{{ basic_data[7] }}" placeholder="Enter your mobile number"
-                                class="form-control" />
-                        {% endif %}
-                    </div>
     
                     <br><br>
                     <button type="submit" class="btn btn-custom btn-lg">Submit</button>
@@ -173,16 +154,11 @@
                 <h5>Update Login Information</h5>
 
                 <br>
-                <form action="{{ url_for('update_login_data') }}" method="POST">
+                <form action="{{ url_for('main.update_login_data') }}" method="POST">
                     <div class="form-outline mt-2">
                         <label class="form-label"><b>Email address</b></label>
-                        {% if account_type == 'Doctor' %}
-                            <input type="email" name="email-address" value="{{ basic_data[11] }}" placeholder="Enter your email address"
-                                class="form-control" />
-                        {% else %}
-                            <input type="email" name="email-address" value="{{ basic_data[8] }}" placeholder="Enter your email address"
-                                class="form-control" />
-                        {% endif %}
+                        <input type="email" name="email-address" value="{{ profile_data['basic_data']['email_address'] }}" placeholder="Enter your email address"
+                            class="form-control" />
                     </div>
     
                     <div class="form-outline mt-2">
@@ -210,10 +186,10 @@
                 <h5>Update Health Information</h5>
 
                 <br><br>
-                <form action="{{ url_for('update_health_data') }}" method="POST">
+                <form action="{{ url_for('main.update_health_data') }}" method="POST">
                     <div class="form-outline">
                         <label class="form-label"><b>Gender</b></label><br>
-                        {% if health_data[1] == 'Male' %}
+                        {% if profile_data['health_data']['gender'] == 'Male' %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="gender" value="Male" checked />
                                 <label>Male</label>
@@ -230,7 +206,7 @@
                             </div>
                         {% endif %}
 
-                        {% if health_data[1] == 'Female' %}
+                        {% if profile_data['health_data']['gender'] == 'Female' %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="gender" value="Male" />
                                 <label>Male</label>
@@ -247,7 +223,7 @@
                             </div>
                         {% endif %}
                         
-                        {% if health_data[1] == 'Other' %}
+                        {% if profile_data['health_data']['gender'] == 'Other' %}
                         <div class="form-check form-check-inline">
                             <input type="radio" class="form-check-input" name="gender" value="Male" />
                             <label>Male</label>
@@ -270,8 +246,8 @@
                         <label class="form-label"><b>Blood Group</b></label><br>
 
                         <select class="select form-control" name="blood-group">
-                            {% if health_data[3] %}
-                                <option value="{{ health_data[3] }}">{{ health_data[3] }}</option>
+                            {% if profile_data['health_data']['blood_group'] %}
+                                <option value="{{ profile_data['health_data']['blood_group'] }}">{{ profile_data['health_data']['blood_group'] }}</option>
                             {% else %}
                                 <option value="">Choose blood group</option>
                             {% endif %}
@@ -288,21 +264,21 @@
 
                     <div class="form-ouline mt-2">
                         <label class="form-label"><b>Weight</b></label>
-                        <input type="number" name="weight" placeholder="Enter your weight in kgs" value="{{ health_data[4] }}" 
+                        <input type="number" name="weight" placeholder="Enter your weight in kgs" value="{{ profile_data['health_data']['weight'] }}" 
                             class="form-control" />
                     </div>
     
                     <div class="form-ouline mt-2">
                         <label class="form-label"><b>Height</b></label>
-                        <input type="number" name="height" placeholder="Enter your height in cms" value="{{ health_data[5] }}" 
+                        <input type="number" name="height" placeholder="Enter your height in cms" value="{{ profile_data['health_data']['height'] }}" 
                             class="form-control" />
                     </div>
 
                     <div class="form-ouline mt-2">
                         <label class="form-label"><b>Disability</b></label>
                         <select class="select form-control" name="disability">
-                            {% if health_data[7] %}
-                                <option value="{{ health_data[7] }}">{{ health_data[7] }}</option>
+                            {% if profile_data['health_data']['disability'] %}
+                                <option value="{{ profile_data['health_data']['disability'] }}">{{ profile_data['health_data']['disability'] }}</option>
                             {% else %}
                                 <option value="">Choose disability type</option>
                             {% endif %}
@@ -344,8 +320,8 @@
                     <div class="form-ouline mt-2">
                         <label class="form-label"><b>Fitzpatrick Skin Type</b></label>
                         <select class="select form-control" name="fitzpatrick-skin-type">
-                            {% if health_data[8] %}
-                                <option value="{{ health_data[8] }}">{{ health_data[8] }}</option>
+                            {% if profile_data['health_data']['fitzpatrick'] %}
+                                <option value="{{ profile_data['health_data']['fitzpatrick'] }}">{{ profile_data['health_data']['fitzpatrick'] }}</option>
                             {% else %}
                                 <option value="">Choose fitzpatrick skin type</option>
                             {% endif %}
@@ -360,15 +336,15 @@
 
                     <div class="form-ouline mt-2">
                         <label class="form-label"><b>Allergies</b></label>
-                        <input type="text" name="allergies" placeholder="Enter your allergies" value="{{ health_data[9] }}" 
+                        <input type="text" name="allergies" placeholder="Enter your allergies" value="{{ profile_data['health_data']['allergies'] }}" 
                             class="form-control" />
                     </div>
 
                     <div class="form-ouline mt-2">
                         <label class="form-label"><b>Cancer</b></label>
                         <select name="cancer" class="select form-control">
-                            {% if health_data[12] %}
-                                <option value="{{ health_data[12] }}">{{ health_data[12] }}</option>
+                            {% if profile_data['health_data']['cancer'] %}
+                                <option value="{{ profile_data['health_data']['cancer'] }}">{{ profile_data['health_data']['cancer'] }}</option>
                             {% else %}
                                 <option value="">Choose type of cancer</option>
                             {% endif %}
@@ -392,7 +368,7 @@
                     <br>
                     <div class="form-ouline mt-2">
                         <label class="form-label"><b>Diabetes</b></label><br>
-                        {% if health_data[10] == 'No' or not health_data[10] %}
+                        {% if profile_data['health_data']['diabetes'] == 'No' or not profile_data['health_data']['diabetes'] %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="diabetes" value="No" checked />
                                 <label>No</label>
@@ -409,7 +385,7 @@
                             </div>
                         {% endif %}
 
-                        {% if health_data[10] == 'Type 1' %}
+                        {% if profile_data['health_data']['diabetes'] == 'Type 1' %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="diabetes" value="No" />
                                 <label>No</label>
@@ -426,7 +402,7 @@
                             </div>
                         {% endif %}
                         
-                        {% if health_data[10] == 'Type 2' %}
+                        {% if profile_data['health_data']['diabetes'] == 'Type 2' %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="diabetes" value="No" />
                                 <label>No</label>
@@ -447,7 +423,7 @@
                     <br>
                     <div class="form-ouline mt-2">
                         <label class="form-label"><b>Thyroid</b></label><br>
-                        {% if health_data[11] == 'No' or not health_data[11] %}
+                        {% if profile_data['health_data']['thyroid'] == 'No' or not profile_data['health_data']['thyroid'] %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="thyroid" value="No" checked />
                                 <label>No</label>
@@ -464,7 +440,7 @@
                             </div>
                         {% endif %}
 
-                        {% if health_data[11] == 'Hyperthyroidism' %}
+                        {% if profile_data['health_data']['thyroid'] == 'Hyperthyroidism' %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="thyroid" value="No" />
                                 <label>No</label>
@@ -481,7 +457,7 @@
                             </div>
                         {% endif %}
                     
-                        {% if health_data[11] == 'Hypothyroidism' %}    
+                        {% if profile_data['health_data']['thyroid'] == 'Hypothyroidism' %}    
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="thyroid" value="No" />
                                 <label>No</label>
@@ -502,7 +478,7 @@
                     <br>
                     <div class="form-ouline mt-2">
                         <label class="form-label"><b>Covid</b></label><br>
-                        {% if health_data[13] == 'No' or not health_data[13] %}
+                        {% if profile_data['health_data']['covid'] == 'No' or not profile_data['health_data']['covid'] %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="covid" value="No" checked />
                                 <label>No</label>
@@ -514,7 +490,7 @@
                             </div>
                         {% endif %}
 
-                        {% if health_data[13] == 'Yes' %}
+                        {% if profile_data['health_data']['covid'] == 'Yes' %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="covid" value="No" />
                                 <label>No</label>
@@ -530,7 +506,7 @@
                     <br>
                     <div class="form-ouline mt-2">
                         <label class="form-label"><b>Asthma</b></label><br>
-                        {% if health_data[14] == 'No' or not health_data[14] %}
+                        {% if profile_data['health_data']['asthma'] == 'No' or not profile_data['health_data']['asthma'] %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="asthma" value="No" checked />
                                 <label>No</label>
@@ -542,7 +518,7 @@
                             </div>
                         {% endif %}
 
-                        {% if health_data[14] == 'Yes' %}
+                        {% if profile_data['health_data']['asthma'] == 'Yes' %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="asthma" value="No" />
                                 <label>No</label>
@@ -558,7 +534,7 @@
                     <br>
                     <div class="form-ouline mt-2">
                         <label class="form-label"><b>HIV/AIDS</b></label><br>
-                        {% if health_data[15] == 'No' or not health_data[15] %}
+                        {% if profile_data['health_data']['hiv_aids'] == 'No' or not profile_data['health_data']['hiv_aids'] %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="hiv-aids" value="No" checked />
                                 <label>No</label>
@@ -570,7 +546,7 @@
                             </div>
                         {% endif %}
 
-                        {% if health_data[15] == 'Yes' %}
+                        {% if profile_data['health_data']['hiv_aids'] == 'Yes' %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="hiv-aids" value="No" />
                                 <label>No</label>
@@ -586,7 +562,7 @@
                     <br>
                     <div class="form-ouline mt-2">
                         <label class="form-label"><b>Addiction</b></label><br>
-                        {% if health_data[16] == 'No' or not health_data[16] %}
+                        {% if profile_data['health_data']['addiction'] == 'No' or not profile_data['health_data']['addiction'] %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="addiction" value="No" checked />
                                 <label>No</label>
@@ -603,7 +579,7 @@
                             </div>
                         {% endif %}
 
-                        {% if health_data[16] == 'Smoking' %}
+                        {% if profile_data['health_data']['addiction'] == 'Smoking' %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="addiction" value="No" />
                                 <label>No</label>
@@ -620,7 +596,7 @@
                             </div>
                         {% endif %}
 
-                        {% if health_data[16] == 'Alcohol' %}
+                        {% if profile_data['health_data']['addiction'] == 'Alcohol' %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="addiction" value="No" />
                                 <label>No</label>

@@ -1,6 +1,8 @@
 /* Body */
 body {
     background-color: whitesmoke;
+    margin-left: 10rem;
+    margin-right: 10rem;
 }
 
 /* Navigation Bar */
@@ -19,8 +21,6 @@ body {
 
 /* Greetings Card */
 #greeting-card {
-    width: 75rem;
-    margin-left: 10rem;
     opacity: 1;
 }
 
@@ -30,7 +30,6 @@ body {
 
 /* Book Appointment Card */ 
 #book-appointment-card {
-    margin-left: 10rem;
     opacity: 1;
 }
 
@@ -38,7 +37,7 @@ body {
     display: block;
 }
 
-#book-appointment-card h5 {
+#book-appointment-card h3 {
     color: #22577A;
 }
 
@@ -55,17 +54,15 @@ body {
 /* Communicate Link Card */
 #communicate-link-card {
     color: #22577A;
-    margin-left: 10rem;
     opacity: 1;
 }
 
 /* Appointment Statistics Card */
 #appointment-statistics-card {
-    margin-left: 10rem;
     opacity: 1;
 }
 
-#appointment-statistics-card h5 {
+#appointment-statistics-card h3 {
     color: #22577A;
 }
 
@@ -83,8 +80,9 @@ body {
     float: left;
     width: 20px;
     height: 20px;
-    margin: 5px;
+    margin-right: 5px;
     border: 1px solid rgba(0, 0, 0, .2);
+    border-radius: 5px;
 }
 
 .appointment {
@@ -95,47 +93,39 @@ body {
     background: #80ED99;
 }
 
-p {
-    font-size: 75px;
-}
-
 /* Upcoming Appointment Card */
 #upcoming-appointment-card {
-    width: 29.5rem;
     opacity: 1;
 }
 
-#upcoming-appointment-card h5 {
+#upcoming-appointment-card h3 {
     color: #22577A;
 }
 
 /* Upcoming Virtual Appointment Card */
 #upcoming-virtual-card {
-    width: 29.5rem;
     opacity: 1;
 }
 
-#upcoming-virtual-card h5 {
+#upcoming-virtual-card h3 {
     color: #22577A;
 }
 
 /* Members Card */
 #members-card {
-    width: 29.5rem;
     opacity: 1;
 }
 
-#members-card h5 {
+#members-card h3 {
     color: #22577A;
 }
 
 /* Account Age Card */
 #account-age-card {
-    width: 29.5rem;
     opacity: 1;
 }
 
-#account-age-card h5 {
+#account-age-card h3 {
     color: #22577A;
 }
 

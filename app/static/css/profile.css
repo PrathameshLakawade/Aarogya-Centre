@@ -1,6 +1,8 @@
 /* Body */
 body {
     background-color: whitesmoke;
+    margin-left: 10rem;
+    margin-right: 10rem;
 }
 
 /* Navigation Bar */
@@ -13,11 +15,6 @@ body {
     padding: 5rem;
 }
 
-/* Profile Completion Card */
-#profile-completion-card {
-    margin-left: 10rem;
-}
-
 .progress {
     height: 25px;
 }
@@ -26,25 +23,17 @@ body {
     width: 0%;
 }
 
-#profile-completion-card h5 {
+#profile-completion-card h3 {
     color: #22577A;
 }
 
 /* Family Member Card */
-#family-member-card {
-    margin-left: 10rem;
-}
-
-#family-member-card h5 {
+#family-member-card h3 {
     color: #22577A;
 }
 
 /* Appointment Link Card */
-#appointment-link-card {
-    margin-left: 10rem;
-}
-
-#appointment-link-card h2 {
+#appointment-link-card h3 {
     color: #22577A;
 }
 
@@ -53,11 +42,7 @@ body {
 }
 
 /* Communicate Link Card */
-#communicate-link-card {
-    margin-left: 10rem;
-}
-
-#communicate-link-card h2 {
+#communicate-link-card h3 {
     color: #22577A;
 }
 
@@ -76,30 +61,21 @@ body {
 }
 
 /* Profile Card */
-#profile-card {
-    width: 53.25rem;
-}
-
-#profile-card h5 {
+#profile-card h3 {
     color: #22577A;
 }
 
 /* Documents Card */
-#documents-card {
-    width: 53.25rem;
-}
-
-#documents-card h5 {
+#documents-card h3 {
     color: #22577A;
 }
 
 /* Appointment History Card */
 #appointment-history-card {
-    width: 53.25rem;
     display: block;
 }
 
-#appointment-history-card h5 {
+#appointment-history-card h3 {
     color: #22577A;
 }
 
@@ -108,6 +84,6 @@ body {
     display: none;
 }
 
-#member-appointment-history h5 {
+#member-appointment-history h3 {
     color: #22577A;
 }

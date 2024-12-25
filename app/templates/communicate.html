@@ -23,7 +23,7 @@
 
         <!-- Navigation Bar: Brand Logo -->
         <div class="container">
-            <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+            <a class="navbar-brand" href="{{ url_for('main.dashboard') }}">
                 <img src="/static/images/logo.png" alt="Aarogya Centre Logo" width="200" height="100">
             </a>
 
@@ -35,11 +35,11 @@
                         style="border: 5px solid #22577A; border-radius: 100%;" />
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ url_for('dashboard') }}">View dashboard</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('profile') }}">View profile</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.dashboard') }}">View dashboard</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.view_profile') }}">View profile</a></li>
                         <li><a class="dropdown-item" href="#">Need help?</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ url_for('home') }}">Log Out</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.home') }}">Log Out</a></li>
                     </ul>
                 </li>   
             </ul>
@@ -54,12 +54,12 @@
                     <h1><b>Communicate with doctor</b></h1>
                     <br>
 
-                    <form action="{{ url_for('communicate') }}" method="POST">
+                    <form action="{{ url_for('main.communicate') }}" method="POST">
                         <div class="form-outline mb-4">
                             <label class="form-label"><b>Patient name</b></label><br>
                             <select class="select form-control" name="appointment-member" required >
                                 <option value="" disabled selected>Choose a member</option>
-                                <option value="{{ basic_data[0] }}">{{ basic_data[2] }} {{ basic_data[3] }}</option>
+                                <option value="{{ profile_data['basic_data']['id'] }}">{{ profile_data['basic_data']['first_name'] }} {{ profile_data['basic_data']['last_name'] }}</option>
                                 {% for member in member_basic_data %}
                                     <option value="{{ member[0] }}">{{ member[2] }} {{ member[3] }}</option>
                                 {% endfor %}

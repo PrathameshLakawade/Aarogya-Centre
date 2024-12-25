@@ -35,8 +35,8 @@
             <ul class="nav nav-pills">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                        {% if data['basic_data']['profile_picture'] %}
-                            <img src="{{ data['basic_data']['profile_picture'] }}" width="50" height="50" 
+                        {% if profile_data['basic_data']['profile_picture'] %}
+                            <img src="data:image/jpeg;base64,{{ profile_data['basic_data']['profile_picture'] }}" width="50" height="50" 
                                 style="border: 6px solid #22577A; border-radius: 100%;" />
                         {% else %}
                             <img src="/static/images/user-icon.png" width="50" height="50" 
@@ -44,7 +44,7 @@
                         {% endif %}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{{ url_for('main.profile') }}">View account</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('main.view_profile') }}">View account</a></li>
                         <li><a class="dropdown-item" href="#">Need help?</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ url_for('main.home') }}">Log Out</a></li>
@@ -57,25 +57,25 @@
     <!-- Greetings Card -->
     <div class="card shadow p-2" id="greeting-card">
         <div class="card-body">
-            {% if data['basic_data']['speciality'] %}
-                <h1><b>{{ greetings }} Dr. {{ data['basic_data']['first_name'] }}</b></h1>
+            {% if profile_data['basic_data']['speciality'] %}
+                <h1><b>{{ session_stats['greetings'] }} Dr. {{ profile_data['basic_data']['first_name'] }}</b></h1>
             {% else %}
-                <h1><b>{{ greetings }} {{ data['basic_data']['first_name'] }}</b></h1>
+                <h1><b>{{ session_stats['greetings'] }} {{ profile_data['basic_data']['first_name'] }}</b></h1>
             {% endif %}
         </div>
     </div>
 
-    <div class="row mt-3 w-100">
+    <div class="row mt-3">
         <div class="col-md-7">
 
             <!-- Book Appointment Card -->
             <div class="card shadow p-4" id="book-appointment-card">
-                <h5>Book appointment</h5>
+                <h3><b>Book Appointment</b></h3>
                 <form action="{{ url_for('main.search_doctors') }}" method="POST">
                     <div class="form-outline mt-4">
-                        <label class="form-label"><b>What will be the mode of appointment?</b></label><br>
+                        <label class="form-label"><b>How do you want to meet a doctor?</b></label><br>
 
-                        {% if appointment_data['mode'] == 'Hospital' or not appointment_data %}
+                        {% if ongoing_booking['mode'] == 'Hospital' or not ongoing_booking %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="appointment-mode" value="Hospital" 
                                     onclick="showCity()" checked required />
@@ -95,7 +95,7 @@
                             </div>
                         {% endif %}
 
-                        {% if appointment_data['mode'] == 'Home' %}
+                        {% if ongoing_booking['mode'] == 'Home' %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="appointment-mode" value="Hospital" 
                                     onclick="showCity()" />
@@ -115,7 +115,7 @@
                             </div>
                         {% endif %}
 
-                        {% if appointment_data['mode'] == 'Virtual' %}
+                        {% if ongoing_booking['mode'] == 'Virtual' %}
                             <div class="form-check form-check-inline">
                                 <input type="radio" class="form-check-input" name="appointment-mode" value="Hospital" 
                                     onclick="showCity()" />
@@ -140,23 +140,25 @@
                         <div class="col-md-6">
                             <label class="form-label"><b>Patient name</b></label><br>
                             <select class="select form-control" name="appointment-member" required >
-                                {% if appointment_data %}
-                                    <option value="{{ appointment_data['user_name'] }}" disabled selected>{{ appointment_data['user_name'] }}</option>
+                                {% if ongoing_booking['user_name'] %}
+                                    <option value="{{ ongoing_booking['user_name'] }}" disabled selected>{{ ongoing_booking['user_name'] }}</option>
                                 {% else %}
                                     <option value="" disabled selected>Choose a member</option>
                                 {% endif %}
-                                <option value="{{ data['basic_data']['id'] }}">{{ data['basic_data']['first_name'] }} {{ data['basic_data']['last_name'] }}</option>
-                                {% for member in member_basic_data %}
-                                    <option value="{{ member[2] }} {{ member[3] }}">{{ member[2] }} {{ member[3] }}</option>
-                                {% endfor %}
+                                <option value="{{ profile_data['basic_data']['id'] }}">{{ profile_data['basic_data']['first_name'] }} {{ profile_data['basic_data']['last_name'] }}</option>
+                                {% if members_data != None %}
+                                    {% for member in members_data %}
+                                        <option value="{{ member['id'] }}">{{ member['first_name'] }} {{ member['last_name'] }}</option>
+                                    {% endfor %}
+                                {% endif %}
                             </select>
                         </div>
 
                         <div class="col" id="appointment-city">
-                            {% if appointment_data['mode'] == 'Hospital' %}
+                            {% if ongoing_booking['mode'] == 'Hospital' %}
                                 <label class="form-label"><b>City</b></label>
-                                <input type="text" name="appointment-city" value="{{ appointment_data['appointment_city'] }}" class="form-control" >
-                            {% elif not appointment_data %}
+                                <input type="text" name="appointment-city" value="{{ ongoing_booking['appointment_city'] }}" class="form-control" >
+                            {% elif not ongoing_booking %}
                                 <label class="form-label"><b>City</b></label>
                                 <input type="text" name="appointment-city" placeholder="Enter a city" class="form-control" >
                             {% endif %}
@@ -167,8 +169,8 @@
                         <div class="col">
                             <label class="form-label"><b>Doctor's specialisation</b></label>
                             <select class="select form-control" name="appointment-doctor-category" onchange="this.form.submit()" required>
-                                {% if appointment_data %}
-                                    <option value="{{ appointment_data['specialist'] }}" disabled selected>{{ appointment_data['specialist'] }}</option>
+                                {% if ongoing_booking %}
+                                    <option value="{{ ongoing_booking['specialist'] }}" disabled selected>{{ ongoing_booking['specialist'] }}</option>
                                 {% else %}
                                     <option value="" disabled selected>Choose doctor's specialisation</option>
                                 {% endif %}
@@ -195,12 +197,12 @@
                     <form action="{{ url_for('main.check_availability') }}" method="POST">
                             <label class="form-label"><b>Doctor's name</b></label>
                             <select class="select form-control" name="appointment-doctor" required>
-                                {% if appointment_data['doctor_name'] %}
-                                    <option value="{{ appointment_data['doctor_name'] }}" disabled selected>{{ appointment_data['doctor_name'] }}</option>
+                                {% if ongoing_booking['doctor_name'] %}
+                                    <option value="{{ ongoing_booking['doctor_name'] }}" disabled selected>{{ ongoing_booking['doctor_name'] }}</option>
                                 {% else %}
                                     <option value="" disabled selected>Choose doctor's name</option>
                                 {% endif %}
-                                {% if not appointment_data['doctor_name'] and list_of_doctors %}
+                                {% if not ongoing_booking['doctor_name'] and list_of_doctors %}
                                     {% for doctor in list_of_doctors %}
                                         <option value="{{ doctor['doctor_name'] }}">{{ doctor['doctor_name'] }}</option>
                                     {% endfor %}
@@ -212,12 +214,12 @@
                     <div class="row mt-3">
                         <div class="col">
                             <label class="form-label"><b>Appointment date</b></label>
-                            {% if appointment_data['appointment_date'] %}
-                                <input type="date" class="form-control" name="appointment-date" value="{{ appointment_data['appointment_date'] }}" 
-                                    onchange="this.form.submit()" min="{{ week_dates[0] }}" max="{{ week_dates[6] }}" required>
+                            {% if ongoing_booking['appointment_date'] %}
+                                <input type="date" class="form-control" name="appointment-date" value="{{ ongoing_booking['appointment_date'] }}" 
+                                    onchange="this.form.submit()" required>
                             {% else %}
-                                <input type="date" class="form-control" name="appointment-date" value="{{ week_dates[0] }}" 
-                                    onchange="this.form.submit()" min="{{ week_dates[0] }}" max="{{ week_dates[6] }}" required>
+                                <input type="date" class="form-control" name="appointment-date" 
+                                    onchange="this.form.submit()" required>
                             {% endif %}
                         </div>
                     </form>
@@ -226,8 +228,8 @@
                     <form action="{{ url_for('main.book_appointment') }}" method="POST">
                             <label class="form-label"><b>Appointment time</b></label>
                             <select class="select form-control" name="appointment-time" required>
-                                {% if appointment_data['appointment_time'] %}
-                                    <option value="{{ appointment_data['appointment_time'] }}" disabled selected>{{ appointment_data['appointment_time'] }}</option>
+                                {% if ongoing_booking['appointment_time'] %}
+                                    <option value="{{ ongoing_booking['appointment_time'] }}" disabled selected>{{ ongoing_booking['appointment_time'] }}</option>
                                 {% else %}
                                     <option value="" disabled selected>Choose time</option>
                                 {% endif %}
@@ -248,7 +250,7 @@
                         </div>
                     </form>
                         <div class="col">
-                            <form action="{{ url_for('main.dashboard') }}" method="POST">
+                            <form action="{{ url_for('main.clear_selection') }}" method="POST">
                                 <button type="submit" class="btn btn-custom mt-4">Clear selection</button>
                             </form>
                         </div>
@@ -259,7 +261,7 @@
             <div class="card shadow p-4 mt-4" id="communicate-link-card"> 
                 <div class="row">
                     <div class="col">
-                        <h2><b>Now you can instantly communicate with a doctor!</b></h2>
+                        <h3><b>Now you can instantly connect with a doctor!</b></h3>
 
                         <a class="btn btn-custom mt-5" href="{{ url_for('main.communicate') }}" role="button">Communicate with doctor</a>
                     </div>
@@ -271,35 +273,46 @@
 
             <!-- Appointment Statistics Card -->
             <div class="card shadow p-4 my-4" id="appointment-statistics-card">
-                <h5>Appointment statistics</h5>
+                <h3><b>Appointment Statistics</b></h3>
                 <div class="row">
-                    <div class="col">
-                        <div id="piechart"></div>
+                    <div class="col-md-6">
+                        <div id="piechart"
+                            data-virtual="{{ profile_data['stats']['number_of_virtual_appointments'] }}" 
+                            data-physical="{{ profile_data['stats']['number_of_appointments'] - profile_data['stats']['number_of_virtual_appointments'] }}">
+                        </div>
                     </div>
 
-                    <div class="col">
-                        <p><b>{{ data['stats']['number_of_appointments'] }}</b></p>
-                        <h6>Total appointments booked</h6><br>
+                    <div class="col-md-4">
+                        <div class="foo"></div>
+                        <h6>Total Appointments</h6>
 
                         <div class="foo appointment"></div>
-                        <h6>Virtual appointments  ( {{ data['stats']['number_of_virtual_appointments'] }} )</h6><br>
+                        <h6>Virtual Appointments</h6>
                         
                         <div class="foo virtual-appointment"></div> 
-                        <h6>Offline appointments ( {{ data['stats']['number_of_appointments'] - data['stats']['number_of_virtual_appointments'] }} )</h6>
+                        <h6>Physical Appointments</h6>
+                    </div>
+
+                    <div class="col-md-2">
+                        <h6><b>{{ profile_data['stats']['number_of_appointments'] }}</b></h6>
+                        <h6><b>{{ profile_data['stats']['number_of_virtual_appointments'] }}</b></h6>
+                        <h6><b>{{ profile_data['stats']['number_of_appointments'] - profile_data['stats']['number_of_virtual_appointments'] }}</b></h6>
                     </div>
                 </div>
 
-                {% if virtual > (360 - virtual) %}
-                    <script>
-                        var chart = document.getElementById('piechart');
-                        chart.style.backgroundImage = 'conic-gradient(#57CC99 ' + '{{ virtual }}' + 'deg, #80ED99 ' + '{{ 360 - virtual }}' + 'deg)';
-                    </script>
-                {% else %}
-                    <script>
-                        var chart = document.getElementById('piechart');
-                        chart.style.backgroundImage = 'conic-gradient(#80ED99 ' + '{{ 360 - virtual }}' + 'deg, #57CC99 ' + '{{ virtual }}' + 'deg)';
-                    </script>
-                {% endif %}
+                <script>
+                    var chart = document.getElementById('piechart');
+                    var virtualAppointments = parseInt(chart.dataset.virtual);
+                    var physicalAppointments = parseInt(chart.dataset.physical);
+
+                    var totalAppointments = virtualAppointments + physicalAppointments;
+                    var virtualPercentage = (virtualAppointments / totalAppointments) * 100;
+                    var physicalPercentage = 100 - virtualPercentage;
+                
+                    chart.style.backgroundImage = 'conic-gradient(' +
+                        '#57CC99 0% ' + virtualPercentage + '%, ' +
+                        '#80ED99 ' + virtualPercentage + '% 100%)';
+                </script>                          
             </div>
         </div>
 
@@ -307,15 +320,14 @@
 
             <!-- Upcoming Appointment Card -->
             <div class="card shadow p-4" id="upcoming-appointment-card">
-                <h5>Upcoming appointments</h5>
+                <h3><b>Upcoming Physical Appointment</b></h3>
 
-                {% if upcoming_appointment %}
+                {% if upcoming_appointments['physical'] %}
                     <br>
                     <div class="row">
                         <div class="col-md-4" id="upcoming-fields">
-                            <h6>Appointment ID</h6>
-                            <h6>Patient's name</h6>
-                            <h6>Doctor's name</h6>
+                            <h6>Patient name</h6>
+                            <h6>Doctor name</h6>
                             <h6>Specialisation</h6>
                             <h6>Date</h6>
                             <h6>Time</h6>
@@ -323,15 +335,12 @@
                         </div>
 
                         <div class="col-md-8">
-                            {% for data in upcoming_appointment %}
-                                <h6><b>{{ data[0] }}</b></h6>
-                                <h6><b>{{ data[3] }}</b></h6>
-                                <h6><b>{{ data[5] }}</b></h6>
-                                <h6><b>{{ data[6] }}</b></h6>
-                                <h6><b>{{ data[7] }}</b></h6>
-                                <h6><b>{{ data[8] }}</b></h6>
-                                <h6><b>{{ data[9] }}, {{ data[10] }}</b></h6>
-                            {% endfor %}
+                            <h6><b>{{ upcoming_appointments['physical']['user_name'] }}</b></h6>
+                            <h6><b>{{ upcoming_appointments['physical']['doctor_name'] }}</b></h6>
+                            <h6><b>{{ upcoming_appointments['physical']['specialist'] }}</b></h6>
+                            <h6><b>{{ upcoming_appointments['physical']['appointment_date'] }}</b></h6>
+                            <h6><b>{{ upcoming_appointments['physical']['appointment_time'] }}</b></h6>
+                            <h6><b>{{ upcoming_appointments['physical']['appointment_city'] }}, {{ upcoming_appointments['physical']['appointment_state'] }}</b></h6>
                         </div>
                     </div>
                 {% else %}
@@ -343,29 +352,25 @@
 
             <!-- Upcoming Virtual Appointment Card -->
             <div class="card shadow p-4 mt-3" id="upcoming-virtual-card">
-                <h5>Upcoming virtual appointments</h5>
+                <h3><b>Upcoming Virtual Appointment</b></h3>
 
-                {% if upcoming_virtual %}
+                {% if upcoming_appointments['virtual'] %}
                     <br>
                     <div class="row">
                         <div class="col-md-4" id="upcoming-fields">
-                            <h6>Appointment ID</h6>
-                            <h6>Patient's name</h6>
-                            <h6>Doctor's name</h6>
+                            <h6>Patient name</h6>
+                            <h6>Doctor name</h6>
                             <h6>Specialisation</h6>
                             <h6>Date</h6>
                             <h6>Time</h6>
                         </div>
 
                         <div class="col-md-8">
-                            {% for data in upcoming_virtual %}
-                                <h6><b>{{ data[0] }}</b></h6>
-                                <h6><b>{{ data[3] }}</b></h6>
-                                <h6><b>{{ data[5] }}</b></h6>
-                                <h6><b>{{ data[6] }}</b></h6>
-                                <h6><b>{{ data[7] }}</b></h6>
-                                <h6><b>{{ data[8] }}</b></h6>
-                            {% endfor %}
+                            <h6><b>{{ upcoming_appointments['virtual']['user_name'] }}</b></h6>
+                            <h6><b>{{ upcoming_appointments['virtual']['doctor_name'] }}</b></h6>
+                            <h6><b>{{ upcoming_appointments['virtual']['specialist'] }}</b></h6>
+                            <h6><b>{{ upcoming_appointments['virtual']['appointment_date'] }}</b></h6>
+                            <h6><b>{{ upcoming_appointments['virtual']['appointment_time'] }}</b></h6>
                         </div>
                     </div>
                 {% else %}
@@ -377,16 +382,16 @@
 
             <!-- Family Members Card -->
             <div class="card shadow p-4 mt-4" id="members-card">
-                <h5>Family members</h5>
+                <h3><b>Family members</b></h3>
                 
                 <br>
                 <div class="row">
                     <div class="col-md-2">
-                        <h6>#{{ data['basic_data']['id'] }}</h6>
+                        <h6>#{{ profile_data['basic_data']['id'] }}</h6>
                     </div>
 
                     <div class="col-md-7">
-                        <h6>{{ data['basic_data']['first_name'] }} {{ data['basic_data']['last_name'] }}</h6>
+                        <h6>{{ profile_data['basic_data']['first_name'] }} {{ profile_data['basic_data']['last_name'] }}</h6>
                     </div>
 
                     <div class="col-md-3">
@@ -394,46 +399,51 @@
                     </div>
                     <hr>
                 </div>
+                {% if members_data %}
+                    {% for member in members_data %}
+                        <div class="row">
+                            <div class="col-md-2">
+                                <h6>#{{ member['id'] }}</h6>
+                            </div>
 
-                {% for member in member_basic_data %}
-                    <div class="row">
-                        <div class="col-md-2">
-                            <h6>#{{ member[0] }}</h6>
-                        </div>
+                            <div class="col-md-7">
+                                <h6>{{ member['first_name'] }} {{ member['last_name'] }}</h6>
+                            </div>
 
-                        <div class="col-md-7">
-                            <h6>{{ member[2] }} {{ member[3] }}</h6>
+                            <div class="col-md-3">
+                                <h6>{{ member['relation'] }}</h6>
+                            </div>
+                            <hr>
                         </div>
-
-                        <div class="col-md-3">
-                            <h6>{{ member[12] }}</h6>
-                        </div>
-                        <hr>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                {% endif %}
                 
                 <a class="btn btn-custom mt-3" href="{{ url_for('main.add_member') }}" role="button">Add a member</a>
             </div>
 
-            <!-- Account Age Card -->
+            <!-- Account Card -->
             <div class="card shadow p-4 my-4" id="account-age-card">
-                <h5>Account age</h5>
-                <div class="row">
-                    <div class="col-md-5 mt-2">
-                        <hr>
-                        <h6>Account created on <b>{{ data['stats']['account_created_on'] }}</b></h6>
-                        <hr>
-                    </div>
-
-                    <div class="col-md-5">
-                        <p><b>{{ delta_days }}</b></p>
-                    </div>
-
-                    <div class="col-md-2">
-                        <br>
-                        <br>
-                        <br>
-                        <h6>days</h6>
+                <h3><b>Profile Statistics</b></h3>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <h6>Profile Created On</h6>
+                            <h6>Profile Age</h6>
+                            <h6>Profile Completion Percentage</h6>
+                            {% if profile_data['stats']['number_of_documents_uploaded'] %}
+                                <h6>Total Number of Documents Uploaded</h6>
+                                <h6>Total Number of Members Added</h6>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-5">
+                            <h6><b>{{ profile_data['stats']['account_created_on'] }}</b></h6>
+                            <h6><b>{{ session_stats['account_age'] }}</b></h6>
+                            <h6><b>{{ session_stats['completion_percentage'] }}%</b></h6>
+                            {% if profile_data['stats']['number_of_documents_uploaded'] %}
+                                <h6><b>{{ profile_data['stats']['number_of_documents_uploaded']}}</b></h6>
+                                <h6><b>{{ profile_data['stats']['number_of_members_added'] }}</b></h6>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -480,17 +490,17 @@
 
         <div id="chat-window">
 
-            {% for message in chat_history %}
+            {% for message in chat_history['messages'] %}
                     <div class="row">
                         <div class="col">
-                            {% if message[0] == 'Bot' %}
-                                <h6 id="left">{{ message[1] }}</h6>
+                            {% if message['sender'] == 'Bot' %}
+                                <h6 id="left">{{ message['message'] }}</h6>
                             {% endif %}
                         </div>
 
                         <div class="col">
-                            {% if message[0] == 'User' %}
-                                <h6 id="right">{{ message[1] }}</h6>
+                            {% if message['sender'] == 'User' %}
+                                <h6 id="right">{{ message['message'] }}</h6>
                             {% endif %}
                         </div>
                     </div>
@@ -500,7 +510,7 @@
 
         <div id="chat-input">
             {% if flag %}
-                <form action="{{ url_for('main.get_response') }}" method="POST">
+                <form action="{{ url_for('main.healthcare_chatbot') }}" method="POST">
                     <input type="text" name="user-response" placeholder="Enter your Response" 
                         onsubmit="this.form.submit()" required>
                 </form>

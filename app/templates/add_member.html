@@ -23,7 +23,7 @@
 
     <!-- Navigation Bar: Brand Logo -->
     <div class="container">
-        <a class="navbar-brand" href="{{ url_for('dashboard') }}">
+        <a class="navbar-brand" href="{{ url_for('main.dashboard') }}">
             <img src="/static/images/logo.png" alt="Aarogya Centre Logo" width="200" height="100">
         </a>
 
@@ -31,8 +31,8 @@
         <ul class="nav nav-pills">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                    {% if basic_data[1] %}
-                        <img src="{{ basic_data[1] }}" width="50" height="50" 
+                    {% if profile_data['basic_data']['profile_picture'] %}
+                        <img src="{{ profile_data['basic_data']['profile_picture'] }}" width="50" height="50" 
                             style="border: 6px solid #22577A; border-radius: 100%;" />
                     {% else %}
                         <img src="/static/images/user-icon.png" width="50" height="50" 
@@ -41,11 +41,11 @@
                     
                 </a>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{{ url_for('dashboard') }}">View dashboard</a></li>
-                    <li><a class="dropdown-item" href="{{ url_for('profile') }}">View profile</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('main.dashboard') }}">View dashboard</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('main.view_profile') }}">View profile</a></li>
                     <li><a class="dropdown-item" href="#">Need help?</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="{{ url_for('home') }}">Log Out</a></li>
+                    <li><a class="dropdown-item" href="{{ url_for('main.home') }}">Log Out</a></li>
                 </ul>
             </li>   
         </ul>
@@ -57,7 +57,7 @@
         <div class="card-body">
             <h1><b>Add a member</b></h1>
 
-            <form action="{{ url_for('add_member') }}" method="POST">
+            <form action="{{ url_for('main.add_member') }}" method="POST">
                 <div class="row">
                     <div class="col-md-4 mb-3 mt-2">
                         <div class="form-outline">
@@ -92,21 +92,30 @@
 
                     <div class="col-md-4 mb-3">
                         <div class="form-outline">
+                            <label class="form-label"><b>State</b></label>
+                            <input type="text" name="state" placeholder="Enter state" class="form-control" required />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <div class="form-outline">
                             <label class="form-label"><b>Mobile number</b></label>
                             <input type="number" name="mobile-number" placeholder="Enter your mobile number" class="form-control" required />
                         </div>
                     </div>
 
+                </div>
+
+                <div class="row">
                     <div class="col-md-4 mb-3">
                         <div class="form-outline">
                             <label class="form-label"><b>Email address</b></label>
                             <input type="email" name="email-address" placeholder="Enter your email address" class="form-control" required />
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col mb-4">
+
+                    <div class="col-md-8 mb-4">
                         <label class="form-label"><b>Relationship with you?</b></label><br>
     
                         <div class="form-check form-check-inline">

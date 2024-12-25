@@ -31,8 +31,8 @@
             <ul class="nav nav-pills">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
-                        {% if data["basic_data"]["profile_picture"] %}
-                            <img src="{{ basic_data[1] }}" alt="User Icon" width="50" height="50"
+                        {% if profile_data["basic_data"]["profile_picture"] %}
+                            <img src="{{ profile_data['basic_data']['profile_picture'] }}" alt="User Icon" width="50" height="50"
                                 style="border: 5px solid #22577A; border-radius: 100%;" />
                         {% else %}
                             <img src="/static/images/user-icon.png" alt="User Icon" width="50" height="50"
@@ -50,33 +50,22 @@
         </div>
     </nav>
     
-    <div class="row w-100">
+    <div class="row">
         <div class="col-md-4">
 
             <!-- Profile Completion Card -->
             <div class="card shadow p-4" id="profile-completion-card">
-                <h5>Profile completion</h5>
+                <h3><b>Profile Completion</b></h3>
 
-                {% if account_type == 'Normal' %}
+                {% if session_stats['completion_percentage'] %}
                     <div class="progress mt-2">
                         <div class="progress-bar" role="progressbar" id="pb" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                            {{ complete_percentage }}%
+                            {{ session_stats['completion_percentage'] }}%
                         </div>
 
                         <script>
                             var bar = document.getElementById('pb')
-                            bar.style.width = '{{ complete_percentage }}%';
-                        </script>
-                    </div>
-                {% else %}
-                    <div class="progress mt-2">
-                        <div class="progress-bar" role="progressbar" id="pb" aria-valuenow="0" aria-valuemin="0" aria-valuemax="40">
-                            {{ complete_percentage }}%
-                        </div>
-
-                        <script>
-                            var bar = document.getElementById('pb')
-                            bar.style.width = '{{ complete_percentage }}%';
+                            bar.style.width = "{{ session_stats['completion_percentage'] }}%";
                         </script>
                     </div>
                 {% endif %}
@@ -84,36 +73,40 @@
 
             <!-- Family Member Card -->
             <div class="card shadow p-4 mt-4" id="family-member-card">
-                <h5>Family Members</h5>
+                <h3><b>Family Members</b></h3>
                 
                 <br>
                 <div class="row">
                     <div class="col-md-2">
-                        <h6>#{{ data["basic_data"]["id"] }}</h6>
+                        <h6>#{{ profile_data["basic_data"]["id"] }}</h6>
                     </div>
 
-                    <div class="col-md-10">
-                        <h6>{{ data["basic_data"]["first_name"] }} {{ data["basic_data"]["last_name"] }}</h6>
+                    <div class="col-md-7">
+                        <h6>{{ profile_data["basic_data"]["first_name"] }} {{ profile_data["basic_data"]["last_name"] }}</h6>
+                    </div>
+
+                    <div class="col-md-3">
+                        <h6>Admin</h6>
                     </div>
                     <hr>
                 </div>
 
-                <!-- {% for member in member_basic_data %}
+                {% for member in members_data %}
                     <div class="row">
                         <div class="col-md-2">
-                            <h6>#{{ member[0] }}</h6>
+                            <h6>#{{ member['id'] }}</h6>
                         </div>
 
                         <div class="col-md-7">
-                            <h6>{{ member[2] }} {{ member[3] }}</h6>
+                            <h6>{{ member['first_name'] }} {{ member['last_name'] }}</h6>
                         </div>
 
                         <div class="col-md-3">
-                            <h6></h6>
+                            <h6>{{ member['relation'] }}</h6>
                         </div>
                         <hr>
                     </div>
-                {% endfor %} -->
+                {% endfor %}
 
                 <a class="btn btn-custom" href="{{ url_for('main.add_member') }}" role="button">Add a member</a>
             </div>
@@ -122,21 +115,12 @@
             <div class="card shadow p-4 mt-4" id="appointment-link-card">
                 <div class="row">
                     <div class="col">
-                        <h2><b>Instantly book an appointment with a doctor</b></h2>
-
+                        <h3><b>Book an appointment with a doctor</b></h3>
+                        <hr>
+                        <a class="btn btn-custom" href="{{ url_for('main.dashboard') }}" role="button">Book</a>
                     </div>
                     <div class="col">
-                        <div class="row">
-                            <div class="col">
-                                <br>
-                                <br>
-                                <a class="btn btn-custom" href="{{ url_for('main.dashboard') }}" role="button">Book</a>
-                            </div>
-
-                            <div class="col">
-                                <img src="/static/images/appointment-icon.png" alt="Communicate Vector" width="125" height="160">
-                            </div>
-                        </div>
+                        <img src="/static/images/appointment-icon.png" alt="Communicate Vector" width="125" height="160">
                     </div>
                 </div>
             </div>
@@ -145,21 +129,12 @@
             <div class="card shadow p-4 mt-4" id="communicate-link-card">
                 <div class="row">
                     <div class="col">
-                        <h2><b>Now you can instantly communicate with a doctor!</b></h2>
+                        <h3><b>Now you can instantly communicate with a doctor!</b></h3>
+                        <hr>
+                        <a class="btn btn-custom" href="{{ url_for('main.communicate') }}" role="button">Contact</a>
                     </div>
                     <div class="col">
-
-                        <div class="row">
-                            <div class="col">
-                                <br>
-                                <br>
-                                <a class="btn btn-custom" href="{{ url_for('main.communicate') }}" role="button">Contact</a>
-                            </div>
-
-                            <div class="col">
-                                <img src="/static/images/communicate-icon.png" alt="Communicate Vector" width="115" height="150">
-                            </div>
-                        </div>
+                        <img src="/static/images/communicate-icon.png" alt="Communicate Vector" width="115" height="150">
                     </div>
                 </div>
             </div>
@@ -170,140 +145,54 @@
 
             <!-- Profile Card -->
             <div class="card shadow p-4" id="profile-card">
-                <h5>Profile</h5>
+                <h3><b>Profile</b></h3>
                 <br>
 
                 <div class="row d-flex align-items-end">
                     <div class="col">
-
-                        {% if data["basic_data"]["speciality"] == '' %}
-                            {% if data["basic_data"]["profile_picture"] %}
-                                <img src="{{ basic_data[1] }}" width="110" height="110" 
-                                    style="border: 6px solid #22577A; border-radius: 100%;" /><br><br><br><br>
-                            {% else %}
-                                <img src="/static/images/user-icon.png" width="110" height="110" 
-                                    style="border: 6px solid #22577A; border-radius: 100%;" /><br><br><br><br>
-                            {% endif %}
-
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <h6>User ID</h6>
-                                </div>
-
-                                <div class="col-md-9">
-                                    <h6><b>{{ data['basic_data']['id'] }}</b></h6>
-                                </div>
-                            </div>
-
-                            <!-- {% for i in range(2, 5) %}
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <h6>{{ basic_fields[i] }}</h6>
-                                </div>
-
-                                <div class="col-md-9">
-                                    <h6><b>{{ basic_data[i] }}</b></h6>
-                                </div>
-                            </div>
-                            {% endfor %} -->
-                            
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <h6>Address</h6>
-                                </div>
-
-                                <div class="col-md-9">
-                                    {% if data['basic_data']['address'] %}
-                                        <h6><b> {{ data['basic_data']['address'] }}<br>
-                                                {{ data['basic_data']['city'] }}<br>
-                                                {{ data['basic_data']['state'] }}</b></h6>
-                                    {% else %}
-                                        <br><br><br>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                            <!-- {% for i in range(6, 9) %}
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <h6>{{ basic_fields[i] }}</h6>
-                                </div>
-
-                                <div class="col-md-9">
-                                    <h6><b>{{ basic_data[i] }}</b></h6>
-                                </div>
-                            </div>
-                            {% endfor %} -->
-
+                        {% if profile_data["basic_data"]["profile_picture"] %}
+                            <img src='{{ profile_data["basic_data"]["profile_picture"] }}'' width="110" height="110" 
+                                style="border: 6px solid #22577A; border-radius: 100%;" /><br><br><br><br>
                         {% else %}
-                            {% if data['basic_data']['profile_picture'] %}
-                                <img src="/{{ profile_picture }}" width="110" height="110" 
-                                    style="border: 6px solid #22577A; border-radius: 100%;" /><br><br><br><br>
-                            {% else %}
-                                <img src="/static/images/user-icon.png" width="110" height="110" 
-                                    style="border: 6px solid #22577A; border-radius: 100%;" /><br><br><br><br>
-                            {% endif %}
-                            
-                            <div class="row mt-5">
-                                <div class="col-md-4">
-                                    <h6>Doctor ID</h6>
-                                </div>
+                            <img src="/static/images/user-icon.png" width="110" height="110" 
+                                style="border: 6px solid #22577A; border-radius: 100%;" /><br><br><br><br>
+                        {% endif %}
 
-                                <div class="col-md-8">
-                                    <h6><b>{{ data['basic_data']['id'] }}</b></h6>
-                                </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h6>ID</h6>
+                                <h6>First Name</h6>
+                                <h6>Last Name</h6>
+                                <h6>Email Address</h6>
+                                <h6>Birth Date</h6>
+                                <h6>Address</h6>
+                                <h6>City</h6>
+                                <h6>State</h6>
+                                <h6>Mobile Number</h6>
                             </div>
 
-                            <!-- {% for i in range(2, 5) %}
+                            <div class="col-md-8">
+                                <h6><b>{{ profile_data['basic_data']['id'] }}</b></h6>
+                                <h6><b>{{ profile_data['basic_data']['first_name'] }}</b></h6>
+                                <h6><b>{{ profile_data['basic_data']['last_name'] }}</b></h6>
+                                <h6><b>{{ profile_data['basic_data']['email_address'] }}</b></h6>
+                                <h6><b>{{ profile_data['basic_data']['birth_date'] }}</b></h6>
+                                <h6><b>{{ profile_data['basic_data']['address'] }}</b></h6>
+                                <h6><b>{{ profile_data['basic_data']['city'] }}</b></h6>
+                                <h6><b>{{ profile_data['basic_data']['state'] }}</b></h6>
+                                <h6><b>{{ profile_data['basic_data']['mobile_number'] }}</b></h6>
+                            </div>
+                        </div>
+
+                        {% if profile_data['basic_data']['speciality'] == 'None' %}
                             <div class="row">
                                 <div class="col-md-4">
-                                    <h6>{{ basic_fields[i] }}</h6>
+                                    <h6>Speciality</h6>
                                 </div>
-
                                 <div class="col-md-8">
-                                    <h6><b>{{ basic_data[i] }}</b></h6>
+                                    <h6>{{ profile_data['basic_data']['speciality'] }}</h6>
                                 </div>
                             </div>
-                            {% endfor %} -->
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h6>Address</h6>
-                                </div>
-
-                                <div class="col-md-8">
-                                    {% if data['basic_data']['address'] %}
-                                        <h6><b> {{ data['basic_data']['address'] }}<br>
-                                                {{ data['basic_data']['city'] }}<br>
-                                                {{ data['basic_data']['state'] }}</b></h6>
-                                    {% else %}
-                                        <br><br><br>
-                                    {% endif %}
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h6>City</h6>
-                                </div>
-
-                                <div class="col-md-8">
-                                    <h6><b>{{ data['basic_data']['city'] }}</b></h6>
-                                </div>
-                            </div>
-
-                            <!-- {% for i in range(8, 12) %}
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h6>{{ basic_fields[i] }}</h6>
-                                </div>
-
-                                <div class="col-md-8">
-                                    <h6><b>{{ basic_data[i] }}</b></h6>
-                                </div>
-                            </div>
-                            {% endfor %} -->
-
                         {% endif %}
                     </div>
 
@@ -325,26 +214,26 @@
                                 <h6>Covid</h6>
                                 <h6>Asthma</h6>
                                 <h6>HIV/AIDS</h6>
-                                <h6>Addictions</h6>
+                                <h6>Addiction</h6>
                             </div>
 
                             <div class="col-md-7">
-                                <h6><b>{{ data['health_data']['gender'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['age'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['blood_group'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['weight'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['height'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['obesity'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['disability'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['fitzpatrick'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['allergies'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['diabetes'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['thyroid'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['cancer'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['covid'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['asthma'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['hiv_aids'] }}</b></h6>
-                                <h6><b>{{ data['health_data']['addictions'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['gender'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['age'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['blood_group'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['weight'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['height'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['obesity'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['disability'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['fitzpatrick'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['allergies'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['diabetes'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['thyroid'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['cancer'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['covid'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['asthma'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['hiv_aids'] }}</b></h6>
+                                <h6><b>{{ profile_data['health_data']['addiction'] }}</b></h6>
                             </div>
                         </div>
                     </div>
@@ -356,34 +245,48 @@
 
             <!-- Documents Card -->
             <div class="card shadow p-4 mt-4" id="documents-card">
-                <h5>Documents</h5>
+                <h3><b>Documents</b></h3>
                 
                 <div class="row">
                     <div class="col">
                         <br>
-                        {% if documents %}
-                            <form action="{{ url_for('main.view_documents') }}" method="POST" enctype="multipart/form-data">
-                                {% for data in documents %}
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            <h6>{{ data[1] }}</h6>
-                                        </div>
-
-                                        <div class="col-md-5">
-                                            <button value="{{ data[2] }}" class="btn btn-custom btn-sm" name="document-button" 
-                                                onclick="this.form.submit()" >
-                                                View document
-                                            </button>        
-                                        </div>
+                        {% if profile_data['documents'] %}
+                            {% for data in profile_data['documents'] %}
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <h6>{{ data['document_name'] }}</h6>
                                     </div>
-                                    <hr>
-                                {% endfor %}
-                            </form>    
+                                    <div class="col-md-5">
+                                        <!-- Store URL in a data attribute -->
+                                        <button 
+                                            type="button" 
+                                            class="btn btn-custom btn-sm" 
+                                            data-url="{{ url_for('main.get_document', document_id=data['id']) }}"
+                                            onclick="openDocument(this)">
+                                            View document
+                                        </button>
+                                    </div>
+                                </div>
+                                <hr>
+                            {% endfor %}
                         {% else %}
                             <h6>Your uploaded documents will appear here.</h6>
                         {% endif %}
                     </div>
-
+                </div>
+                
+                <script>
+                    // JavaScript function to open the document in a new tab
+                    function openDocument(button) {
+                        const url = button.dataset.url; // Correctly fetch the value of the data-url attribute
+                        if (url) {
+                            window.open(url, '_blank'); // Open the document in a new tab
+                        } else {
+                            console.error('URL not found in data-url attribute!');
+                        }
+                    }
+                </script>                
+                                
                     <div class="col">
                         <img src="/static/images/documents-vector.png" alt="Documents Vector" width="300" height="240" />
                     </div>
@@ -413,10 +316,10 @@
 
             <!-- Appointment History Card -->
             <div class="card shadow p-4 my-4" id="appointment-history-card">
-                {% if member_appointment_data %}
+                {% if appointment_data %}
                     <div class="row">
                         <div class="col-md-8">
-                            <h5>Appointment history</h5>
+                            <h3><b>Appointment History</b></h3>
                         </div>
 
                         <div class="col-md-4">
@@ -433,66 +336,73 @@
                         </div>
                     </div>
                 {% else %}
-                    <h5>Appointment history</h5>
+                    <h5>Appointment History</h5>
                 {% endif %}
 
                 {% if appointment_data %}
                     <br>
-                    <h6>Showing appointments of <b>{{ data['basic_data']['first_name'] }} {{ data['basic_data']['last_name'] }}</b></h6>
+                    <h6>Showing appointments of <b>{{ profile_data['basic_data']['first_name'] }} {{ profile_data['basic_data']['last_name'] }}</b></h6>
                     <br>
                     <div class="row">
 
                         <div class="col-md-1">
-                            <h6>ID</h6>
+                            <h6><b>ID</b></h6>
                         </div>
 
                         <div class="col-md-2">
-                            <h6>Mode</h6>
+                            <h6><b>Mode</b></h6>
                         </div>
 
                         <div class="col-md-3">
-                            <h6>Doctor</h6>
+                            <h6><b>Doctor</b></h6>
                         </div>
 
-                        <div class="col-md-3">
-                            <h6>Date & Time</h6>
+                        <div class="col-md-2">
+                            <h6><b>Specialist</b></h6>
                         </div>
 
-                        <div class="col-md-3">
-                            <h6>Location</h6>
+                        <div class="col-md-2">
+                            <h6><b>Date</b></h6>
+                        </div>
+
+                        <div class="col-md-2">
+                            <h6><b>Location</b></h6>
                         </div>
                     </div>
                     <hr>
 
-                    <!-- {% for i in appointment_data %}
+                    {% for data in appointment_data %}
                         <div class="row">
 
                             <div class="col-md-1">
-                                <h6>{{ i[0] }}</h6>
+                                <h6>{{ data['id'] }}</h6>
                             </div>
 
                             <div class="col-md-2">
-                                <h6>{{ i[1] }}</h6>
+                                <h6>{{ data['mode'] }}</h6>
                             </div>
 
                             <div class="col-md-3">
-                                <h6>{{ i[5] }}</h6>
+                                <h6>{{ data['doctor_name'] }}</h6>
                             </div>
 
-                            <div class="col-md-3">
-                                <h6>{{ i[7] }}<br>
-                                    {{ i[8] }}</h6>
+                            <div class="col-md-2">
+                                <h6>{{ data['specialist'] }}</h6>
                             </div>
 
-                            <div class="col-md-3">
-                                <h6>{{ i[9] }}, {{ i[10] }}</h6>
+                            <div class="col-md-2">
+                                <h6>{{ data['appointment_date'] }}</h6>
+                            </div>
+
+                            <div class="col-md-2">
+                                <h6>{{ data['appointment_city'] }}</h6>
                             </div>
                         </div>
-                    {% endfor %} -->
+                    {% endfor %}
                 {% endif %}
             </div>
 
-            {% if member_appointment_data %}
+            {% if members_appointment_data %}
                 <div class="card shadow p-4 my-4" id="member-appointment-history" >
                     <div class="row">
                         <div class="col-md-8">
@@ -512,9 +422,9 @@
                         </div>
                     </div>
 
-                    {% for _ in range(length) %}
+                    {% for member in members_appointment_data %}
                         <br>
-                        <h6>Showing appointments of <b>{{ member_basic_data[_][2] }} {{ member_basic_data[_][3] }}</b></h6>
+                        <h6>Showing appointments of <b>{{ member['name'] }}</b></h6>
                         <br>
                         <div class="row">
 
@@ -530,38 +440,45 @@
                                 <h6>Doctor</h6>
                             </div>
 
-                            <div class="col-md-3">
-                                <h6>Date & Time</h6>
+                            <div class="col-md-2">
+                                <h6><b>Specialist</b></h6>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
+                                <h6>Date</h6>
+                            </div>
+
+                            <div class="col-md-2">
                                 <h6>Location</h6>
                             </div>
                         </div>
                         <hr>
 
-                        {% for i in member_appointment_data[_] %}
+                        {% for data in member['appointments'] %}
                             <div class="row">
 
                                 <div class="col-md-1">
-                                    <h6>{{ i[0] }}</h6>
+                                    <h6>{{ data['id'] }}</h6>
                                 </div>
 
                                 <div class="col-md-2">
-                                    <h6>{{ i[1] }}</h6>
+                                    <h6>{{ data['mode'] }}</h6>
                                 </div>
 
                                 <div class="col-md-3">
-                                    <h6>{{ i[5] }}</h6>
+                                    <h6>{{ data['doctor_name'] }}</h6>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <h6>{{ data['specialist'] }}</h6>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <h6>{{ data['appointment_date'] }}</h6>
                                 </div>
 
                                 <div class="col-md-3">
-                                    <h6>{{ i[7] }}<br>
-                                        {{ i[8] }}</h6>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <h6>{{ i[9] }}, {{ i[10] }}</h6>
+                                    <h6>{{ data['appointment_city'] }}</h6>
                                 </div>
                             </div>
                         {% endfor %}
