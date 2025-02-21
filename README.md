@@ -18,18 +18,18 @@ Aarogya Centre is a comprehensive healthcare platform that enables users to mana
 
 ## **Screenshots & Visuals**
 ### **Login**
-[Login](./docs/login.png)
+![Login](./docs/login.png)
 
 ### **Dashboard**
-[Dashboard-1](./docs/dashboard-1.png)
-[Dashboard-2](./docs/dashboard-2.png)
+![Dashboard-1](./docs/dashboard-1.png)
+![Dashboard-2](./docs/dashboard-2.png)
 
 ### **Chatbot Interaction**
-[Chatbot](./docs/chatbot.png)
+![Chatbot](./docs/chatbot.png)
 
 ### **Profile**
-[Profile-1](./docs/profile-1.png)
-[Profile-2](./docs/profile-2.png)
+![Profile-1](./docs/profile-1.png)
+![Profile-2](./docs/profile-2.png)
 
 # **Installation & Setup**
 ## **Prerequisites**
