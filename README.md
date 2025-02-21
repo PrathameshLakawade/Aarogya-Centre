@@ -17,13 +17,19 @@ Aarogya Centre is a comprehensive healthcare platform that enables users to mana
 6. **Family Member Management**: Add family members to the profile and book appointments for them.
 
 ## **Screenshots & Visuals**
-### **Home page**
+### **Login**
+[Login](./docs/login.png)
 
-### **Appointment Booking**
+### **Dashboard**
+[Dashboard-1](./docs/dashboard-1.png)
+[Dashboard-2](./docs/dashboard-2.png)
 
 ### **Chatbot Interaction**
+[Chatbot](./docs/chatbot.png)
 
-### **Video Consultation**
+### **Profile**
+[Profile-1](./docs/profile-1.png)
+[Profile-2](./docs/profile-2.png)
 
 # **Installation & Setup**
 ## **Prerequisites**
@@ -33,17 +39,17 @@ Aarogya Centre is a comprehensive healthcare platform that enables users to mana
 
 ## Application Setup
 1. Clone the repository:
-'''
+```sh
 git clone https://github.com/PrathameshLakawade/Aarogya-Centre.git
-'''
+```
 2. Create a virtual environment and install dependencies:
-'''
+```sh
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
-'''
-3. Set up environment variables (`.env` file):
 ```
+3. Set up environment variables (`.env` file):
+```sh
 # Database Configurations
 HOST='your-database-host'
 PORT='your-database-port'
@@ -60,7 +66,7 @@ USE_TLS='true/false'
 USE_SSL='true/false'
 ```
 4. Start the Flask server:
-```
+```sh
 python3 main.py
 ```
 
@@ -80,8 +86,8 @@ python3 main.py
 This project is supported by an international research paper:
 - **Aarogya Centre - A Complete Healthcare Website**  
   *Published in International Journal for Research in Applied Science & Engineering Technology (IJRASET), 2022*  
-  (https://www.ijraset.com/best-journal/aarogya-centre-a-complete-healthcare-website)  
-  - Authors: Prathamesh Lakawade
+  [View Paper](https://www.ijraset.com/best-journal/aarogya-centre-a-complete-healthcare-website)  
+  - Author: Prathamesh Lakawade
   - Abstract: During the COVID-19 pandemic, everybody was forced to restrict their human interaction to avoid the spread of coronavirus. All the doctors and other employees in the medical industry were working day and night to eradicate the virus. Getting health-related consultation from doctors was risky as an individual had to physically go to a doctor for a checkup. Artificial Intelligence (AI) is the fastest-growing field and is expanding rapidly in other work sectors including the medical sector. Our proposed system is to develop a platform in which all queries related to health can be fulfilled. To start, every individual will need to create a profile on the platform by providing a few details. The user can insert their previous medical records onto the profile so that they can store their entire medical history in one place. On the platform, there will be three modules, chatbot, video chat, and appointment booking. The chatbot can predict the disease and give healthcare advice according to details provided by the user. In the video chat module, the user will be able to communicate with a doctor through video call or only through chat. In the appointment booking module, users can book an appointment with different doctors and hospitals for checkups. With the help of the platform, an individual can save a lot of time and money for simple health-related problems. The platform would also be beneficial for people living in remote areas as they can easily access good medical consultations.
 
 # License
